@@ -1,4 +1,4 @@
-package dto;
+package dto.fssp;
 
 import java.util.Objects;
 
@@ -79,5 +79,18 @@ public class FsspInfo {
     @Override
     public int hashCode() {
         return Objects.hash(getIpDate(), getIpNumber(), getIpDocument(), getFsspDepartment(), getFsspAdress(), getDebtSumm());
+    }
+
+
+    @Override
+    public String toString() {
+        return "FsspInfo{" +
+                "ipDate='" + ipDate + '\'' +
+                ", ipNumber='" + ipNumber + '\'' +
+                ", ipDocument='" + ipDocument + '\'' +
+                ", fsspDepartment='" + fsspDepartment + '\'' +
+                ", fsspAdress='" + fsspAdress + '\'' +
+                ", debtSumm='" + debtSumm + '\'' +
+                '}';
     }
 }
