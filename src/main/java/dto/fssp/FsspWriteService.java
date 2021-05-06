@@ -6,29 +6,49 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 
 public class FsspWriteService {
 
-    public void run(ArrayList<FsspInfo> infoList) throws IOException {
+    public void run(List<FsspInfo> infoList) throws IOException {
+
+        String path = "D:\\ideProjects\\parser\\";
+        String pathFolder = path + "ИП ДОЛЖНИК\\";
+        Files.createDirectory(Path.of(pathFolder));
+        StringsData data = new StringsData();
 
 
         for (FsspInfo info : infoList) {
-            XWPFDocument document = createDoc(new StringsData(info)); //HERE
 
-            FileOutputStream out = new FileOutputStream("D:\\ideProjects\\parser\\File.docx");
+            XWPFDocument document = createDoc(data, info); //HERE
+
+            String dirName = info.getIpNumber().replace("/", "_").trim();
+            String pathDir = pathFolder + dirName + "\\";
+            Files.createDirectory(Path.of(pathDir));
+
+            String finalDir = pathDir + "Ход-во об окончании ИП № " + dirName + ".docx";
+            FileOutputStream out = new FileOutputStream(finalDir);
             document.write(out);
             out.close();
         }
     }
 
+    private XWPFDocument createDoc(StringsData str, FsspInfo info) {
 
-    private XWPFDocument createDoc(StringsData str) {
+
+        String caseInfo = "В производстве " + info.getFsspDepartment() + " находится исполнительное производство № " + info.getIpNumber() +
+                ", возбужденное на основании исполнительного документа " + info.getIpDocument() + " о взыскании с ООО «НСГ – «РОСЭНЕРГО» " +
+                "суммы в размере " + info.getDebtSumm() + " руб.";
+
+        String firstAsk = "1.   Окончить исполнительное производство № " + info.getIpNumber() + ";";
+        String secondAsd = "2. Исполнительный документ " + info.getIpDocument() +
+                " направить в адрес конкурсного управляющего ООО «НСГ – «РОСЭНЕРГО» по адресу: 127994, г. Москва, ГСП-4.";
 
 
         XWPFDocument document = new XWPFDocument();
-
         XWPFTable table = document.createTable();
         createFormedTable(table);
 
@@ -100,22 +120,22 @@ public class FsspWriteService {
         crtCellMidPrf(R14C0, "");
         crtCellMidPrf(R15C0, "");
 
-        crtCellBoldPrf(R0C1, str.getToWho());
-        crtCellPrf(R1C1, str.getToWhoAddress());
+        crtCellBoldPrf(R0C1, info.getFsspDepartment());
+        crtCellPrf(R1C1, info.getFsspAdress());
         crtCellPrf(R2C1, "");
         crtBoldAndNormalCellPrf(R3C1, str.getDebtor(), str.getLfo());
         crtCellPrf(R4C1, str.getOgrn());
         crtCellPrf(R5C1, str.getInn());
-        crtCellPrf(R6C1, str.getLfoAdress1());
-        crtCellPrf(R7C1, str.getLfoAdress2());
+        crtCellPrf(R6C1, str.getLfoAddress1());
+        crtCellPrf(R7C1, str.getLfoAddress2());
         crtCellBoldPrf(R8C1, str.getInFace1());
         crtCellBoldPrf(R9C1, str.getInFace2());
         crtCellBoldPrf(R10C1, str.getInFace3());
         crtCellPrf(R11C1, "");
-        crtCellBoldPrf(R12C1, str.getMailAdress());
+        crtCellBoldPrf(R12C1, str.getMailAddress());
         crtCellPrf(R13C1, str.getAsvAddress());
         crtCellPrf(R14C1, "");
-        crtBoldAndNormalCellPrf(R15C1, str.getIpNumberTxt(), str.getIpNumber());
+        crtBoldAndNormalCellPrf(R15C1, str.getIpNumberTxt(), info.getIpNumber());
 
         crtSpanPrf(document);
         crtSpanPrf(document);
@@ -123,7 +143,7 @@ public class FsspWriteService {
         crtMidPrf(document, str.getPettAbout());
         crtSpanPrf(document);
 
-        crtPrf(document, str.getCaseInfo());
+        crtPrf(document, caseInfo);
         crtPrf(document, str.getDecisionInfo());
         crtPrf(document, str.getLawInfo());
         crtPrf(document, str.getResultInfo());
@@ -132,8 +152,8 @@ public class FsspWriteService {
         crtMidBoldPrf(document, str.getAsking());
         crtSpanPrf(document);
 
-        crtPrf(document, str.getFirstAsk());
-        crtPrf(document, str.getSecondAsd());
+        crtPrf(document, firstAsk);
+        crtPrf(document, secondAsd);
         crtSpanPrf(document);
 
         crtBoldPrf(document, str.getAttachment());

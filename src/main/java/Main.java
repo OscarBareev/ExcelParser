@@ -1,21 +1,15 @@
-import dto.fssp.FsspInfo;
 import dto.fssp.FsspReadService;
-
+import dto.fssp.FsspWriteService;
 import java.io.IOException;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
 
         FsspReadService frs = new FsspReadService();
-
         frs.parse();
 
-        List<FsspInfo> list = frs.getDataList();
-
-        System.out.println(list.get(76));
-
-
+        FsspWriteService fws = new FsspWriteService();
+        fws.run(frs.getDataList());
     }
 }

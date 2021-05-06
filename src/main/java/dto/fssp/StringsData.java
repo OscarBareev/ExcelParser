@@ -3,209 +3,147 @@ package dto.fssp;
 public final class StringsData {
 
 
-    private FsspInfo info;
-
-    public StringsData(FsspInfo info) {
-        this.info = info;
-    }
 
 
-    private final String toWho = info.getFsspDepartment();;
-    private final String toWhoAddress = info.getFsspAdress();
-    private final String ipNumber = info.getIpNumber();
+  /*  private String toWho = info.getFsspDepartment();
+    private String toWhoAddress = info.getFsspAdress();
+    private String ipNumber = info.getIpNumber();
 
 
     //MAIN TEXT
 
-    private final String caseInfo = "В производстве " + info.getFsspDepartment() + " находится исполнительное производство № " + info.getIpNumber() +
+    private String caseInfo = "В производстве " + info.getFsspDepartment() + " находится исполнительное производство № " + info.getIpNumber() +
             ", возбужденное на основании исполнительного документа " + info.getIpDocument() + " о взыскании с ООО «НСГ – «РОСЭНЕРГО» " +
             "суммы в размере " + info.getDebtSumm() + " руб.";
 
-    private final String firstAsk = "1.   Окончить исполнительное производство № " + info.getIpNumber() + ";";
-    private final String secondAsd = "2. Исполнительный документ " + info.getIpDocument() +
+    private String firstAsk = "1.   Окончить исполнительное производство № " + info.getIpNumber() + ";";
+    private String secondAsd = "2. Исполнительный документ " + info.getIpDocument() +
             " направить в адрес конкурсного управляющего ООО «НСГ – «РОСЭНЕРГО» по адресу: 127994, г. Москва, ГСП-4.";
-
+*/
 
     //GETTERS
 
-    public FsspInfo getInfo() {
-        return info;
-    }
 
     public String getGovCorp() {
-        String govCorp = "  ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ  ";
-        return govCorp;
+        return "  ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ  ";
     }
 
     public String getAgency() {
-        String agency = " АГЕНСТВО ";
-        return agency;
+        return " АГЕНСТВО ";
     }
 
     public String getInsur() {
-        String insur = " ПО СТРАХОВАНИЮ ВКЛАДОВ ";
-        return insur;
+        return " ПО СТРАХОВАНИЮ ВКЛАДОВ ";
     }
 
     public String getManager() {
-        String manager = " КОНКУРСНЫЙ УПРАВЛЯЮЩИЙ ";
-        return manager;
+        return " КОНКУРСНЫЙ УПРАВЛЯЮЩИЙ ";
     }
 
     public String getLfo() {
-        String lfo = "ООО «НСГ – «РОСЭНЕРГО»";
-        return lfo;
+        return "ООО «НСГ – «РОСЭНЕРГО»";
     }
 
     public String getAsvAddress() {
-        String asvAddress = " 127994, г. Москва, ГСП-4 ";
-        return asvAddress;
+        return "127994, г. Москва, ГСП-4";
     }
 
     public String getPhnNmb() {
-        String phnNmb = " тел. +7 (495) 725-31-29 ";
-        return phnNmb;
+        return "тел. +7 (495) 725-31-29";
     }
 
     public String getDateAndNmb() {
-        String dateAndNmb = " от____________№____________ ";
-        return dateAndNmb;
-    }
-
-    public String getToWho() {
-        return toWho;
-    }
-
-    public String getToWhoAddress() {
-        return toWhoAddress;
+        return "от____________№____________";
     }
 
     public String getDebtor() {
-        String debtor = "Должник:";
-        return debtor;
+        return "Должник:";
     }
 
     public String getOgrn() {
-        String ogrn = "(ОГРН: 1020400754285,";
-        return ogrn;
+        return "(ОГРН: 1020400754285,";
     }
 
     public String getInn() {
-        String inn = "ИНН: 0411063374, КПП: 041101001)";
-        return inn;
+        return "ИНН: 0411063374, КПП: 041101001)";
     }
 
-    public String getLfoAdress1() {
-        String lfoAdress1 = "649000, Республика Алтай, г. Горно-Алтайск,";
-        return lfoAdress1;
+    public String getLfoAddress1() {
+        return "649000, Республика Алтай, г. Горно-Алтайск,";
     }
 
-    public String getLfoAdress2() {
-        String lfoAdress2 = "Коммунистический пр-т, д. 9, оф. 1";
-        return lfoAdress2;
+    public String getLfoAddress2() {
+        return "Коммунистический пр-т, д. 9, оф. 1";
     }
 
     public String getInFace1() {
-        String inFace1 = "в лице конкурсного управляющего";
-        return inFace1;
+        return "в лице конкурсного управляющего";
     }
 
     public String getInFace2() {
-        String inFace2 = "государственной корпорации «Агентство по";
-        return inFace2;
+        return "государственной корпорации «Агентство по";
     }
 
     public String getInFace3() {
-        String inFace3 = "страхованию вкладов»";
-        return inFace3;
+        return "страхованию вкладов»";
     }
 
-    public String getMailAdress() {
-        String mailAdress = "Адрес для направления корреспонденции:";
-        return mailAdress;
+    public String getMailAddress() {
+        return "Адрес для направления корреспонденции:";
     }
 
     public String getIpNumberTxt() {
-        String ipNumberTxt = "Номер ИП:";
-        return ipNumberTxt;
-    }
-
-    public String getIpNumber() {
-        return ipNumber;
+        return "Номер ИП:";
     }
 
     public String getPetition() {
-        String petition = "ХОДАТАЙСТВО";
-        return petition;
+        return "ХОДАТАЙСТВО";
     }
 
     public String getPettAbout() {
-        String pettAbout = "об окончании исполнительного производства";
-        return pettAbout;
-    }
-
-    public String getCaseInfo() {
-        return caseInfo;
+        return "об окончании исполнительного производства";
     }
 
     public String getDecisionInfo() {
-        String decisionInfo = "Решением Арбитражного суда Республики Алтай от ХХ.ХХ.2021 " +
+        return "Решением Арбитражного суда Республики Алтай от ХХ.ХХ.2021 " +
                 "по делу № А02-211/2021 (резолютивная часть которого объявлена ХХ.ХХ.2021) ООО «НСГ – «РОСЭНЕРГО» " +
                 "признано несостоятельным (банкротом), в отношении него открыто конкурсное производство, " +
                 "полномочия конкурсного управляющего возложены на " +
                 "государственную корпорацию «Агентство по страхованию вкладов».";
-        return decisionInfo;
     }
 
     public String getLawInfo() {
-        String lawInfo = "Согласно п.п. 7 п. 1 ст.47 Федерального закона от 02.10.2007 № 229-ФЗ " +
+        return "Согласно п.п. 7 п. 1 ст.47 Федерального закона от 02.10.2007 № 229-ФЗ " +
                 "«Об исполнительном производстве», исполнительное производство оканчивается судебным приставом-исполнителем " +
                 "в случае признания должника банкротом и направления исполнительного документа арбитражному управляющему.";
-        return lawInfo;
     }
 
     public String getResultInfo() {
-        String resultInfo = "Исходя из вышеизложенного,";
-        return resultInfo;
+        return "Исходя из вышеизложенного,";
     }
 
     public String getAsking() {
-        String asking = "ПРОШУ:";
-        return asking;
-    }
-
-    public String getFirstAsk() {
-        return firstAsk;
-    }
-
-    public String getSecondAsd() {
-        return secondAsd;
+        return "ПРОШУ:";
     }
 
     public String getAttachment() {
-        String attachment = "Приложения:";
-        return attachment;
+        return "Приложения:";
     }
 
     public String getFirstAttach() {
-        String firstAttach = "1. Копия решения АС Республики Алтай от ХХ.ХХ.2021 по делу № А02-211/2021;";
-        return firstAttach;
+        return "1. Копия решения АС Республики Алтай от ХХ.ХХ.2021 по делу № А02-211/2021;";
     }
 
     public String getSecondAttach() {
-        String secondAttach = "2. Копия доверенности представителя.";
-        return secondAttach;
+        return "2. Копия доверенности представителя.";
     }
 
     public String getSignData1() {
-        String signData1 = "Главный юрисконсульт";
-        return signData1;
+        return "Главный юрисконсульт";
     }
 
     public String getSignData2() {
-        String signData2 = "Первого отдела ПССР ДПС                     " +
-                "                                             " +
-                "               И.А. Богданов";
-        return signData2;
+        return "Первого отдела ПССР ДПС                                     " +
+                "                                            И.А. Богданов";
     }
 }
