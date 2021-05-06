@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -47,7 +48,7 @@ public class FsspReadService {
         for (int c = 0; c < cols; c++) {
 
             XSSFRow row = sheet.getRow(0);
-            String result =   getCellText(row.getCell(c));
+            String result = getCellText(row.getCell(c));
 
             switch (result) {
                 case IP_DATE -> dateCol = c;
@@ -72,14 +73,9 @@ public class FsspReadService {
                     getCellText(row.getCell(adressCol)).trim(),
                     getCellText(row.getCell(debtCol)).trim());
 
-
             ipList.add(info);
         }
-
         inputStream.close();
-
-        System.out.println(ipList.get(8));
-
     }
 
 
@@ -111,6 +107,11 @@ public class FsspReadService {
                 System.out.println("Что-то пошло не так");
         }
         return result;
+    }
+
+
+    public List<FsspInfo> getDataList() {
+        return ipList;
     }
 }
 
