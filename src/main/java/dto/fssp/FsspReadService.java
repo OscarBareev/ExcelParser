@@ -32,7 +32,7 @@ public class FsspReadService {
     private int numCol;
     private int docCol;
     private int departCol;
-    private int adressCol;
+    private int addressCol;
     private int debtCol;
 
 
@@ -55,7 +55,7 @@ public class FsspReadService {
                 case IP_NUMBER -> numCol = c;
                 case IP_DOCUMENT -> docCol = c;
                 case FSSP_DEPARTMENT -> departCol = c;
-                case FSSP_ADRESS -> adressCol = c;
+                case FSSP_ADRESS -> addressCol = c;
                 case DEBT_SUMM -> debtCol = c;
             }
         }
@@ -70,7 +70,7 @@ public class FsspReadService {
                     getCellText(row.getCell(numCol)).trim(),
                     getCellText(row.getCell(docCol)).trim(),
                     getCellText(row.getCell(departCol)).trim(),
-                    getCellText(row.getCell(adressCol)).trim(),
+                    getCellText(row.getCell(addressCol)).trim(),
                     getCellText(row.getCell(debtCol)).trim());
 
             ipList.add(info);

@@ -1,5 +1,6 @@
 package dto.fssp;
 
+import dto.StringsData;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
@@ -33,7 +34,9 @@ public class FsspWriteService {
             FileOutputStream out = new FileOutputStream(finalDir);
             document.write(out);
             out.close();
+
         }
+        infoList.clear();
     }
 
     private XWPFDocument createDoc(StringsData str, FsspInfo info) {
@@ -145,7 +148,7 @@ public class FsspWriteService {
 
         crtPrf(document, caseInfo);
         crtPrf(document, str.getDecisionInfo());
-        crtPrf(document, str.getLawInfo());
+        crtPrf(document, str.getFsspLawInfo());
         crtPrf(document, str.getResultInfo());
 
         crtSpanPrf(document);
@@ -157,8 +160,8 @@ public class FsspWriteService {
         crtSpanPrf(document);
 
         crtBoldPrf(document, str.getAttachment());
-        crtPrf(document, str.getFirstAttach());
-        crtPrf(document, str.getSecondAttach());
+        crtPrf(document, "1.\t" + str.getDecisionAttach());
+        crtPrf(document, "2.\t" + str.getWarrantAttach());
         crtSpanPrf(document);
         crtSpanPrf(document);
 
