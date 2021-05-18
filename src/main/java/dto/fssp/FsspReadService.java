@@ -21,6 +21,7 @@ public class FsspReadService {
 
     private final List<FsspInfo> ipList = new ArrayList<>();
 
+    private static final String INDEX = "Индекс";
     private static final String IP_DATE = "Дата возбуждения";
     private static final String IP_NUMBER = "Номер исполнительного производства";
     private static final String IP_DOCUMENT = "Номер исполнительного документа";
@@ -28,6 +29,7 @@ public class FsspReadService {
     private static final String FSSP_ADRESS = "Адрес отдела судебных приставов";
     private static final String DEBT_SUMM = "Сумма долга";
 
+    private int indexCol;
     private int dateCol;
     private int numCol;
     private int docCol;
@@ -51,6 +53,7 @@ public class FsspReadService {
             String result = getCellText(row.getCell(c));
 
             switch (result) {
+                case INDEX -> indexCol = c;
                 case IP_DATE -> dateCol = c;
                 case IP_NUMBER -> numCol = c;
                 case IP_DOCUMENT -> docCol = c;
@@ -66,6 +69,7 @@ public class FsspReadService {
 
 
             FsspInfo info = new FsspInfo(
+                    getCellText(row.getCell(indexCol)).trim(),
                     getCellText(row.getCell(dateCol)).trim(),
                     getCellText(row.getCell(numCol)).trim(),
                     getCellText(row.getCell(docCol)).trim(),

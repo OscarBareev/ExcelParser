@@ -17,10 +17,14 @@ public class CourtWriteService {
     public void run(List<CourtInfo> infoList) throws IOException {
 
         String path = "D:\\ideProjects\\parser\\";
-        String pathFolder = path + "ЛФО-Ответчик\\";
-        Files.createDirectory(Path.of(pathFolder));
-        StringsData data = new StringsData();
 
+        String pathFolder = path + "ЛФО-Ответчик\\";
+        String pathFolderALl = path + "ЛФО-Ответчик (Все документы)\\";
+
+        Files.createDirectory(Path.of(pathFolder));
+        Files.createDirectory(Path.of(pathFolderALl));
+
+        StringsData data = new StringsData();
 
         for (CourtInfo info : infoList) {
 
@@ -31,9 +35,17 @@ public class CourtWriteService {
             Files.createDirectory(Path.of(pathDir));
 
             String finalDir = pathDir + " Ходатйство об оставлении без рассмотрения дела № " + dirName + ".docx";
-            FileOutputStream out = new FileOutputStream(finalDir);
-            document.write(out);
-            out.close();
+
+            FileOutputStream withFolders = new FileOutputStream(finalDir);
+            document.write(withFolders);
+            withFolders.close();
+
+            //For all docs
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + dirName + ".docx");
+            document.write(noFolders);
+            noFolders.close();
+
+
         }
         infoList.clear();
     }

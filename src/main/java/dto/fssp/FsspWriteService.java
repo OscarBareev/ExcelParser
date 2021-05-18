@@ -17,8 +17,13 @@ public class FsspWriteService {
     public void run(List<FsspInfo> infoList) throws IOException {
 
         String path = "D:\\ideProjects\\parser\\";
+
         String pathFolder = path + "ИП ДОЛЖНИК\\";
+        String pathFolderALl = path + "ИП ДОЛЖНИК (Все документы)\\";
+
         Files.createDirectory(Path.of(pathFolder));
+        Files.createDirectory(Path.of(pathFolderALl));
+
         StringsData data = new StringsData();
 
 
@@ -27,13 +32,19 @@ public class FsspWriteService {
             XWPFDocument document = createDoc(data, info); //HERE
 
             String dirName = info.getIpNumber().replace("/", "_").trim();
-            String pathDir = pathFolder + dirName + "\\";
+            String pathDir = pathFolder + info.getIndex() + " " + dirName + "\\";
             Files.createDirectory(Path.of(pathDir));
-
             String finalDir = pathDir + "Ход-во об окончании ИП № " + dirName + ".docx";
-            FileOutputStream out = new FileOutputStream(finalDir);
-            document.write(out);
-            out.close();
+
+            FileOutputStream withFolders = new FileOutputStream(finalDir);
+            document.write(withFolders);
+            withFolders.close();
+
+            //For all docs
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + dirName + ".docx");
+            document.write(noFolders);
+            noFolders.close();
+
 
         }
         infoList.clear();

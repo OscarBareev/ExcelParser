@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class FsspInfo {
 
+
+
+    private String index;
     private String ipDate;
     private String ipNumber;
     private String ipDocument;
@@ -11,13 +14,22 @@ public class FsspInfo {
     private String fsspAdress;
     private String debtSumm;
 
-    public FsspInfo(String ipDate, String ipNumber, String ipDocument, String fsspDepartment, String fsspAdress, String debtSumm) {
+    public FsspInfo(String index, String ipDate, String ipNumber, String ipDocument, String fsspDepartment, String fsspAdress, String debtSumm) {
+        this.index = index;
         this.ipDate = ipDate;
         this.ipNumber = ipNumber;
         this.ipDocument = ipDocument;
         this.fsspDepartment = fsspDepartment;
         this.fsspAdress = fsspAdress;
         this.debtSumm = debtSumm;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public String getIpDate() {
@@ -73,19 +85,19 @@ public class FsspInfo {
         if (this == o) return true;
         if (!(o instanceof FsspInfo)) return false;
         FsspInfo fsspInfo = (FsspInfo) o;
-        return Objects.equals(getIpDate(), fsspInfo.getIpDate()) && Objects.equals(getIpNumber(), fsspInfo.getIpNumber()) && Objects.equals(getIpDocument(), fsspInfo.getIpDocument()) && Objects.equals(getFsspDepartment(), fsspInfo.getFsspDepartment()) && Objects.equals(getFsspAdress(), fsspInfo.getFsspAdress()) && Objects.equals(getDebtSumm(), fsspInfo.getDebtSumm());
+        return Objects.equals(getIndex(), fsspInfo.getIndex()) && Objects.equals(getIpDate(), fsspInfo.getIpDate()) && Objects.equals(getIpNumber(), fsspInfo.getIpNumber()) && Objects.equals(getIpDocument(), fsspInfo.getIpDocument()) && Objects.equals(getFsspDepartment(), fsspInfo.getFsspDepartment()) && Objects.equals(getFsspAdress(), fsspInfo.getFsspAdress()) && Objects.equals(getDebtSumm(), fsspInfo.getDebtSumm());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIpDate(), getIpNumber(), getIpDocument(), getFsspDepartment(), getFsspAdress(), getDebtSumm());
+        return Objects.hash(getIndex(), getIpDate(), getIpNumber(), getIpDocument(), getFsspDepartment(), getFsspAdress(), getDebtSumm());
     }
-
 
     @Override
     public String toString() {
         return "FsspInfo{" +
-                "ipDate='" + ipDate + '\'' +
+                "index='" + index + '\'' +
+                ", ipDate='" + ipDate + '\'' +
                 ", ipNumber='" + ipNumber + '\'' +
                 ", ipDocument='" + ipDocument + '\'' +
                 ", fsspDepartment='" + fsspDepartment + '\'' +

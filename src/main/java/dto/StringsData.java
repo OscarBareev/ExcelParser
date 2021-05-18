@@ -5,15 +5,15 @@ public final class StringsData {
 
     //MAIN
     public String getGovCorp() {
-        return "  ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ  ";
+        return "ГОСУДАРСТВЕННАЯ КОРПОРАЦИЯ";
     }
 
     public String getAgency() {
-        return " АГЕНСТВО ";
+        return "АГЕНСТВО";
     }
 
     public String getInsur() {
-        return " ПО СТРАХОВАНИЮ ВКЛАДОВ ";
+        return "ПО СТРАХОВАНИЮ ВКЛАДОВ";
     }
 
     public String getManager() {
