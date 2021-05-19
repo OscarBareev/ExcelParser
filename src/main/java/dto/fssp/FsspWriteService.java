@@ -34,7 +34,7 @@ public class FsspWriteService {
             String dirName = info.getIpNumber().replace("/", "_").trim();
             String pathDir = pathFolder + info.getIndex() + " " + dirName + "\\";
             Files.createDirectory(Path.of(pathDir));
-            String finalDir = pathDir + "Ход-во об окончании ИП № " + dirName + ".docx";
+            String finalDir = pathDir + "Ходатайство об окончании ИП № " + dirName + ".docx";
 
             FileOutputStream withFolders = new FileOutputStream(finalDir);
             document.write(withFolders);
