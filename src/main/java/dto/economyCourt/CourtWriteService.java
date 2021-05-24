@@ -1,4 +1,4 @@
-package dto.court;
+package dto.economyCourt;
 
 import dto.StringsData;
 import org.apache.poi.xwpf.usermodel.*;
@@ -41,7 +41,7 @@ public class CourtWriteService {
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() +" " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
 
@@ -136,6 +136,7 @@ public class CourtWriteService {
 
         noRedLinePrf(document, str.getSignData1());
         noRedLinePrf(document, str.getSignData2());
+        noRedLinePrf(document, str.getSignData3());
 
         return document;
     }

@@ -1,4 +1,4 @@
-package dto.transferCout;
+package dto.commonCout;
 
 import dto.StringsData;
 import org.apache.poi.xwpf.usermodel.*;
@@ -41,7 +41,7 @@ public class CourtTransferWriteService {
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
 
@@ -72,6 +72,7 @@ public class CourtTransferWriteService {
         XWPFTableRow row0 = table.getRow(0);
         XWPFTableCell R0C0 = row0.getCell(0);
         XWPFTableCell R0C1 = row0.createCell();
+        XWPFTableCell R0C2 = row0.createCell();
 
 
         createAsvForm(
@@ -87,7 +88,7 @@ public class CourtTransferWriteService {
         );
 
         createTopForm(
-                R0C1,
+                R0C2,
                 info.getCourtName(),
                 info.getCourtAddress(),
                 info.getClaimerName(),
@@ -132,6 +133,7 @@ public class CourtTransferWriteService {
 
         noRedLinePrf(document, str.getSignData1());
         noRedLinePrf(document, str.getSignData2());
+        noRedLinePrf(document, str.getSignData3());
 
         return document;
     }
@@ -212,12 +214,31 @@ public class CourtTransferWriteService {
         paragraph.setSpacingAfter(0);
         paragraph.setSpacingBefore(0);
 
+
         XWPFRun run = paragraph.createRun();
         run.setBold(true);
         run.setFontSize(12);
         run.setFontFamily("Times New Roman");
-        run.setText(court);
+
+        if (court.length() < 39) {
+            run.setText(court);
+        } else {
+            String[] strings = court.split(" ");
+            String firstCourtStr = strings[0] + " " + strings[1] + " " + strings[2];
+            String secondCourtStr = "";
+
+            for (int i = 3; i < strings.length; i++) {
+                secondCourtStr = secondCourtStr.trim() + " " + strings[i];
+            }
+
+
+            run.setText(firstCourtStr);
+            run.addBreak();
+            run.setText(secondCourtStr);
+        }
+
         run.addBreak();
+
 
         run = paragraph.createRun();
         run.setFontSize(12);

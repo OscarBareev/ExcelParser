@@ -178,6 +178,7 @@ public class FsspWriteService {
 
         noRedLinePrf(document, str.getSignData1());
         noRedLinePrf(document, str.getSignData2());
+        noRedLinePrf(document, str.getSignData3());
 
         return document;
     }

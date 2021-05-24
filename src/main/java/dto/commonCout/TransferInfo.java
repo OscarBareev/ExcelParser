@@ -1,4 +1,4 @@
-package dto.transferCout;
+package dto.commonCout;
 
 import java.util.Objects;
 

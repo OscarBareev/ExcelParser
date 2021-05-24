@@ -1,4 +1,4 @@
-package dto.court;
+package dto.economyCourt;
 
 import java.util.Objects;
 
