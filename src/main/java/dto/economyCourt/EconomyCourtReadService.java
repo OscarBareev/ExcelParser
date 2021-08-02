@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EconomyCourtReadService {
 
-    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\File2.xlsx";
+    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\АС Истец.xlsx";
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private final List<CourtInfo> caseList = new ArrayList<>();
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FsspReadService {
 
-    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\File.xlsx";
+    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\ИП.xlsx";
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CommonCourtReadService {
 
-    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\File3.xlsx";
+    private static final String EXCEL_FILE_PATH = "D:\\ideProjects\\parser\\СОЮ Истец.xlsx";
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private final List<TransferInfo> transferList = new ArrayList<>();
 

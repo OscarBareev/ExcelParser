@@ -1,6 +1,6 @@
 package dto.fssp;
 
-import dto.StringsData;
+import dto.data.StringsData;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
@@ -151,7 +151,7 @@ public class FsspWriteService {
         crtCellPrf(R14C1, "");
         crtBoldAndNormalCellPrf(R15C1, str.getIpNumberTxt(), info.getIpNumber());
 
-        crtSpanPrf(document);
+
         crtSpanPrf(document);
         crtMidBoldPrf(document, str.getPetition());
         crtMidPrf(document, str.getPettAbout());
