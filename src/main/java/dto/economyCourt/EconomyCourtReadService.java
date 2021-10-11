@@ -96,28 +96,30 @@ public class EconomyCourtReadService {
 
         String result = "";
 
-        switch (cell.getCellType()) {
-            case STRING:
-                result = cell.getRichStringCellValue().getString();
-                break;
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    result = sdf.format(cell.getDateCellValue());
-                } else {
-                    result = Double.toString(cell.getNumericCellValue());
-                }
-                break;
-            case BOOLEAN:
-                result = Boolean.toString(cell.getBooleanCellValue());
-                break;
-            case FORMULA:
-                result = cell.getCellFormula();
-                break;
-            case BLANK:
-                result = "Пустая ячейка";
-                break;
-            default:
-                System.out.println("Что-то пошло не так");
+        if (cell != null) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    result = cell.getRichStringCellValue().getString();
+                    break;
+                case NUMERIC:
+                    if (DateUtil.isCellDateFormatted(cell)) {
+                        result = sdf.format(cell.getDateCellValue());
+                    } else {
+                        result = Double.toString(cell.getNumericCellValue());
+                    }
+                    break;
+                case BOOLEAN:
+                    result = Boolean.toString(cell.getBooleanCellValue());
+                    break;
+                case FORMULA:
+                    result = cell.getCellFormula();
+                    break;
+                case BLANK:
+                    result = "";
+                    break;
+                default:
+                    System.out.println("Что-то пошло не так");
+            }
         }
         return result;
     }

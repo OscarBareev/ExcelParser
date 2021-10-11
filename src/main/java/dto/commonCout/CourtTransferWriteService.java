@@ -11,6 +11,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 
+//Ходатйство о передаче по подсудности дела СОЮ
+
 public class CourtTransferWriteService {
 
     public void run(List<TransferInfo> infoList) throws IOException {
@@ -40,7 +42,7 @@ public class CourtTransferWriteService {
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " " + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " Ходатйство о передаче по подсудности дела № " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
         }

@@ -18,8 +18,8 @@ public class EconomyNewInfoWriteService {
 
         String path = "D:\\ideProjects\\parser\\";
 
-        String pathFolder = path + "Смена реквезитов Арбитраж\\";
-        String pathFolderALl = path + "Смена реквезитов Арбитраж (Все документы)\\";
+        String pathFolder = path + "Смена реквизитов Арбитраж\\";
+        String pathFolderALl = path + "Смена реквизитов Арбитраж (Все документы)\\";
 
         Files.createDirectory(Path.of(pathFolder));
         Files.createDirectory(Path.of(pathFolderALl));
@@ -34,14 +34,14 @@ public class EconomyNewInfoWriteService {
             String pathDir = pathFolder + info.getIndex() + " " + dirName + "\\";
             Files.createDirectory(Path.of(pathDir));
 
-            String finalDir = pathDir + " Ходатйство о смене ревезитов в деле № " + dirName + ".docx";
+            String finalDir = pathDir + " Ходатйство о смене ревизитов в деле № " + dirName + ".docx";
 
             FileOutputStream withFolders = new FileOutputStream(finalDir);
             document.write(withFolders);
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() +" " + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " Ходатйство о смене ревизитов в деле № " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
         }

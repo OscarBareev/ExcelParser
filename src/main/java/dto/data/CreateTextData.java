@@ -8,7 +8,6 @@ import java.math.BigInteger;
 public class CreateTextData {
 
 
-
     //Additional methods
     public String rpStringForm(String courtName) {
         return courtName
@@ -22,6 +21,7 @@ public class CreateTextData {
                 .replace("судья", "судьи")
                 .replace("ской", "ского");
     }
+
 
     public void createAsvForm(
             XWPFTableCell cell,
@@ -67,6 +67,63 @@ public class CreateTextData {
         run.addBreak();
         run.addBreak();
         run.setText(dateAndNmb);
+    }
+
+
+    public void createSimpleTopForm(
+            XWPFTableCell cell,
+            String toName,
+            String toAddress
+    ) {
+        XWPFParagraph paragraph = cell.addParagraph();
+        cell.removeParagraph(0);
+
+        paragraph.setSpacingAfter(0);
+        paragraph.setSpacingBefore(0);
+
+
+        XWPFRun run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+
+        if (toName.length() < 39) {
+            run.setText(toName);
+        } else {
+            String[] strings = toName.split(" ");
+            String firstNameStr = strings[0] + " " + strings[1];
+            String secondCNameStr = "";
+
+            for (int i = 2; i < strings.length; i++) {
+                secondCNameStr = secondCNameStr.trim() + " " + strings[i];
+            }
+
+            run.setText(firstNameStr);
+            run.addBreak();
+            run.setText(secondCNameStr);
+        }
+
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+
+        if (toAddress.length() > 35) {
+            run.setText(toAddress);
+        } else {
+            String[] strings = toAddress.split(" ");
+            String firstAddressStr = strings[0] + " " + strings[1];
+            String secondAddressStr = "";
+
+            for (int i = 2; i < strings.length; i++) {
+                secondAddressStr = secondAddressStr.trim() + " " + strings[i];
+            }
+
+            run.setText(firstAddressStr);
+            run.addBreak();
+            run.setText(secondAddressStr);
+        }
     }
 
 
@@ -357,6 +414,20 @@ public class CreateTextData {
         paragraph.setSpacingBefore(0);
         XWPFRun run = paragraph.createRun();
         run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText(text);
+    }
+
+
+    public void crtItalicPrf(XWPFDocument document, String text) {
+        XWPFParagraph paragraph = document.createParagraph();
+        paragraph.setAlignment(ParagraphAlignment.BOTH);
+        paragraph.setFirstLineIndent(500);
+        paragraph.setSpacingAfter(0);
+        paragraph.setSpacingBefore(0);
+        XWPFRun run = paragraph.createRun();
+        run.setItalic(true);
         run.setFontSize(12);
         run.setFontFamily("Times New Roman");
         run.setText(text);

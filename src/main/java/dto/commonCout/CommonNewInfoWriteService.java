@@ -20,8 +20,8 @@ public class CommonNewInfoWriteService {
 
         String path = "D:\\ideProjects\\parser\\";
 
-        String pathFolder = path + "Смена реквезитов общая юрисдикция\\";
-        String pathFolderALl = path + "Смена реквезитов общая юрисдикция (Все документы)\\";
+        String pathFolder = path + "Смена реквизитов общая юрисдикция\\";
+        String pathFolderALl = path + "Смена реквизитов общая юрисдикция (Все документы)\\";
 
         Files.createDirectory(Path.of(pathFolder));
         Files.createDirectory(Path.of(pathFolderALl));
@@ -43,7 +43,7 @@ public class CommonNewInfoWriteService {
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " " + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " Ходатйство о смене реквезитов в деле № " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
 

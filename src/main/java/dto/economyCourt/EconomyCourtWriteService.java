@@ -10,6 +10,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 
+
+//Ходатйство об оставлении без рассмотрения дела Арбитраж
+
 public class EconomyCourtWriteService {
 
     public void run(List<CourtInfo> infoList) throws IOException {
@@ -39,7 +42,7 @@ public class EconomyCourtWriteService {
             withFolders.close();
 
             //For all docs
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() +" " + dirName + ".docx");
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getIndex() + " Ходатйство об оставлении без рассмотрения дела № " + dirName + ".docx");
             document.write(noFolders);
             noFolders.close();
         }
