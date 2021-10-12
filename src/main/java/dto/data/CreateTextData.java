@@ -243,6 +243,114 @@ public class CreateTextData {
 
     }
 
+
+    public void createCreditorTopForm(
+            XWPFTableCell cell,
+            String creditor,
+            String creditorAddress){
+
+        XWPFParagraph paragraph = cell.addParagraph();
+        cell.removeParagraph(0);
+
+        paragraph.setSpacingAfter(0);
+        paragraph.setSpacingBefore(0);
+
+        XWPFRun run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("Арбитражный суд Республики Алтай");
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("649000, Горно-Алтайск, ул. Ленкина, 4");
+
+
+        run.addBreak();
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("Кредитор:");
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText(creditor);
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText(creditorAddress);
+        run.addBreak();
+
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("Должник:");
+        run.addBreak();
+
+
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("ООО «НСГ – «РОСЭНЕРГО»");
+        run.addBreak();
+        run.setText("(ОГРН: 1020400754285");
+        run.addBreak();
+        run.setText("ИНН: 0411063374, КПП: 041101001)");
+        run.addBreak();
+        run.setText("649000, Республика Алтай, г. Горно-Алтайск, ");
+        run.addBreak();
+        run.setText("Коммунистический пр-т, д. 9, оф. 1");
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("в лице конкурсного управляющего");
+        run.addBreak();
+        run.setText("государственной корпорации «Агентство по");
+        run.addBreak();
+        run.setText("страхованию вкладов»");
+        run.addBreak();
+        run.addBreak();
+        run.setText("Адрес для направления корреспонденции:");
+        run.addBreak();
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("127994, г. Москва, ГСП-4");
+        run.addBreak();
+        run.addBreak();
+
+
+
+        run = paragraph.createRun();
+        run.setBold(true);
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("Дело № ");
+
+        run = paragraph.createRun();
+        run.setFontSize(12);
+        run.setFontFamily("Times New Roman");
+        run.setText("А02-211/2021");
+
+    }
+
     public void createEconomyTopForm(
             XWPFTableCell cell,
             String court,

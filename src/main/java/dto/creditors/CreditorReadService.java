@@ -81,7 +81,7 @@ public class CreditorReadService {
                     clean(getCellText(row.getCell(sumClaimActCol)))
             );
 
-            creditorList.add(info);
+            creditorList.add(fixName(info));
         }
 
         inputStream.close();
@@ -90,6 +90,20 @@ public class CreditorReadService {
     private String clean(String text) {
 
         return text.trim().replace("\n", "");
+    }
+
+
+    private CreditorInfo fixName (CreditorInfo info){
+
+        String resultName = info.getCreditorName();
+
+        if (resultName.contains("/")){
+            String[] nameArr = resultName.split("/");
+            resultName = nameArr[1].trim();
+            info.setCreditorName(resultName);
+        }
+
+        return info;
     }
 
 

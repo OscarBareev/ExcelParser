@@ -1,19 +1,30 @@
 import dto.complaints.ComplaintReadService;
 import dto.complaints.ComplaintWriteService;
+import dto.creditors.CreditorReadService;
+import dto.creditors.CreditorWriteService;
+
 import java.io.IOException;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        String fromPath = "D:\\TestDir\\Таблица для автоматизации претензий и исков (основная).xlsx";
+        String fromPath = "D:\\TestDir\\0_Список кредиторов .xlsx";
         String toPath = "D:\\TestDir";
 
+        CreditorReadService crs = new CreditorReadService();
+        crs.parse(fromPath);
+        CreditorWriteService cws = new CreditorWriteService();
+        cws.run(crs.getCreditorList(), toPath);
 
-        ComplaintReadService crs = new ComplaintReadService();
+
+
+
+
+/*        ComplaintReadService crs = new ComplaintReadService();
         crs.parse(fromPath);
         ComplaintWriteService cws = new ComplaintWriteService();
-        cws.run(crs.getComplaintList(), toPath);
+        cws.run(crs.getComplaintList(), toPath);*/
 
 
 /*
