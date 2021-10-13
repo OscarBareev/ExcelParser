@@ -27,11 +27,11 @@ public class CreditorWriteService {
 
         StringsData data = new StringsData();
 
-        int count = 0;
+
 
         for (CreditorInfo info : infoList) {
 
-            count++;
+
 
             XWPFDocument document = createDoc(data, info);
 
@@ -41,7 +41,7 @@ public class CreditorWriteService {
                     .replace("»", "")
                     .replace("«", "");
 
-            String pathDir = pathFolder + count + ". " + dirName + "\\";
+            String pathDir = pathFolder + info.getNum().replace(".0", "") + ". " + dirName + "\\";
             Files.createDirectory(Path.of(pathDir));
 
 
@@ -54,16 +54,14 @@ public class CreditorWriteService {
             document.write(withFolders);
             withFolders.close();
 
-            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + count +
+            FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getNum().replace(".0", "") +
                     ". Возражение на требование кредитора (" + dirName + ") на " + pages + " л_.docx");
 
 
 
             document.write(noFolders);
             noFolders.close();
-
         }
-
     }
 
 
@@ -175,7 +173,7 @@ public class CreditorWriteService {
                 "управляющим обстоятельств, на которых кредитор основывает свои требования (часть 3 статьи 70 АПК РФ), " +
                 "само по себе не освобождает другую сторону от необходимости доказывания таких обстоятельств.";
 
-        String creditorPar19 = "Кредитор основывает свои требования на актах выполненных работ к " +
+        String creditorPar19 = "Кредитор основывает свои требования на актах выполненных работ " +
                 info.getActReq() + " к договору возмездного оказания услуг " +
                 info.getContractReq() + ", согласно которым Кредитором в отчетный период были оказаны услуги по:";
 
@@ -334,7 +332,11 @@ public class CreditorWriteService {
 
 
     private boolean containsClaim(CreditorInfo info) {
-        return !info.getContractClaimReq().equals("") && !info.getActClaimReq().equals("") && !info.getSumClaimAct().equals("");
+        return !info.getContractClaimReq().equals("")
+                && !info.getActClaimReq().equals("")
+                && !info.getSumClaimAct().equals("")
+                && !info.getSumClaimAct().trim().equalsIgnoreCase("нет")
+                && !info.getSumClaimAct().trim().equalsIgnoreCase("отсутсвуют");
     }
 
 }

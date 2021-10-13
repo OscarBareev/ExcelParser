@@ -18,6 +18,7 @@ public class CreditorReadService {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private final List<CreditorInfo> creditorList = new ArrayList<>();
 
+    private static final String NUM = "<Num>";
     private static final String CREDITOR_NAME = "<Creditor_name>";
     private static final String CREDITOR_ADDRESS = "<Creditor_adress>";
     private static final String SUM = "<Summ>";
@@ -28,6 +29,7 @@ public class CreditorReadService {
     private static final String ACT_CLAIM_REQ = "<Act_Claim _req>";
     private static final String SUM_CLAIM_REQ = "<Summ_Claim_Act>";
 
+    private int numCol;
     private int creditorNameCol;
     private int creditorAddressCol;
     private int sumCol;
@@ -53,6 +55,7 @@ public class CreditorReadService {
             String result = getCellText(row.getCell(c));
 
             switch (result) {
+                case NUM -> numCol = c;
                 case CREDITOR_NAME -> creditorNameCol = c;
                 case CREDITOR_ADDRESS -> creditorAddressCol = c;
                 case SUM -> sumCol = c;
@@ -70,6 +73,7 @@ public class CreditorReadService {
             XSSFRow row = sheet.getRow(r);
 
             CreditorInfo info = new CreditorInfo(
+                    clean(getCellText(row.getCell(numCol))),
                     clean(getCellText(row.getCell(creditorNameCol))),
                     clean(getCellText(row.getCell(creditorAddressCol))),
                     clean(getCellText(row.getCell(sumCol))),
@@ -81,7 +85,7 @@ public class CreditorReadService {
                     clean(getCellText(row.getCell(sumClaimActCol)))
             );
 
-            creditorList.add(fixName(info));
+            creditorList.add(fix(info));
         }
 
         inputStream.close();
@@ -93,7 +97,7 @@ public class CreditorReadService {
     }
 
 
-    private CreditorInfo fixName (CreditorInfo info){
+    private CreditorInfo fix(CreditorInfo info){
 
         String resultName = info.getCreditorName();
 
@@ -102,6 +106,61 @@ public class CreditorReadService {
             resultName = nameArr[1].trim();
             info.setCreditorName(resultName);
         }
+
+
+        String contractReqRes = info.getContractReq();
+        if (contractReqRes.contains("\n")){
+            contractReqRes = contractReqRes.replaceAll("\n",", ");
+        }
+
+        if (contractReqRes.contains("бн ")){
+            contractReqRes = contractReqRes.replaceAll("бн ","б/н ");
+        }
+
+        info.setContractReq(contractReqRes);
+
+
+        String contractClaimReqRes = info.getContractClaimReq();
+        if (contractClaimReqRes.contains("\n")){
+            contractClaimReqRes = contractClaimReqRes.replaceAll("\n",", ");
+        }
+
+        if (contractClaimReqRes.contains("бн ")){
+            contractClaimReqRes = contractClaimReqRes.replaceAll("бн ","б/н ");
+        }
+
+        info.setContractClaimReq(contractClaimReqRes);
+
+
+        String actReqRes = info.getActReq();
+        if (actReqRes.contains("\n")){
+            actReqRes = actReqRes.replaceAll("\n",", ");
+        }
+
+        if (actReqRes.contains("бн ")){
+            actReqRes = actReqRes.replaceAll("бн ","б/н ");
+        }
+
+        info.setActReq(actReqRes);
+
+
+        String actClaimReqRes = info.getActClaimReq();
+        if (actClaimReqRes.contains("\n")){
+            actClaimReqRes = actClaimReqRes.replaceAll("\n",", ");
+        }
+
+        if (actClaimReqRes.contains("бн ")){
+            actClaimReqRes = actClaimReqRes.replaceAll("\n","б/н ");
+        }
+
+        info.setActClaimReq(actClaimReqRes);
+
+
+
+
+
+
+
 
         return info;
     }

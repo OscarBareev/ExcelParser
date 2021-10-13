@@ -284,10 +284,46 @@ public class CreateTextData {
         run.setText(creditor);
         run.addBreak();
 
+
+
+
+
         run = paragraph.createRun();
         run.setFontSize(12);
         run.setFontFamily("Times New Roman");
-        run.setText(creditorAddress);
+
+        if (creditorAddress.length() < 38){
+            run.setText(creditorAddress);
+        } else {
+            String[] strings = creditorAddress.split(" ");
+            String firstStr = "";
+            String secondStr = "";
+
+            if (strings.length > 3){
+                firstStr = strings[0] + " " + strings[1] + " " + strings[2];
+                for (int i = 3; i < strings.length; i++) {
+                    secondStr = secondStr.trim() + " " + strings[i];
+                }
+            } else {
+                firstStr = strings[0] + " " + strings[1];
+                for (int i = 2; i < strings.length; i++) {
+                    secondStr = secondStr.trim() + " " + strings[i];
+                }
+            }
+
+
+
+            run.setText(firstStr);
+            run.addBreak();
+            run.setText(secondStr);
+
+        }
+
+
+
+
+
+
         run.addBreak();
 
         run.addBreak();

@@ -9,8 +9,12 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        String fromPath = "D:\\TestDir\\0_Список кредиторов .xlsx";
+        String fromPath = "D:\\TestDir\\0_Список кредиторов по требованиям.xlsx";
         String toPath = "D:\\TestDir";
+
+
+
+
 
         CreditorReadService crs = new CreditorReadService();
         crs.parse(fromPath);

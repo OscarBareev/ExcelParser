@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class CreditorInfo {
 
+    private String num;
     private String creditorName;
     private String creditorAddress;
     private String sum;
@@ -15,14 +16,8 @@ public class CreditorInfo {
     private String sumClaimAct;
 
 
-    public CreditorInfo(
-            String creditorName,
-            String creditorAddress,
-            String sum, String contractReq,
-            String actReq, String sumAct,
-            String contractClaimReq,
-            String actClaimReq,
-            String sumClaimAct) {
+    public CreditorInfo(String num, String creditorName, String creditorAddress, String sum, String contractReq, String actReq, String sumAct, String contractClaimReq, String actClaimReq, String sumClaimAct) {
+        this.num = num;
         this.creditorName = creditorName;
         this.creditorAddress = creditorAddress;
         this.sum = sum;
@@ -32,6 +27,14 @@ public class CreditorInfo {
         this.contractClaimReq = contractClaimReq;
         this.actClaimReq = actClaimReq;
         this.sumClaimAct = sumClaimAct;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
     }
 
     public String getCreditorName() {
