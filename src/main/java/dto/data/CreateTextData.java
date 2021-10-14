@@ -284,10 +284,6 @@ public class CreateTextData {
         run.setText(creditor);
         run.addBreak();
 
-
-
-
-
         run = paragraph.createRun();
         run.setFontSize(12);
         run.setFontFamily("Times New Roman");
@@ -296,7 +292,7 @@ public class CreateTextData {
             run.setText(creditorAddress);
         } else {
             String[] strings = creditorAddress.split(" ");
-            String firstStr = "";
+            String firstStr;
             String secondStr = "";
 
             if (strings.length > 3){
@@ -310,7 +306,6 @@ public class CreateTextData {
                     secondStr = secondStr.trim() + " " + strings[i];
                 }
             }
-
 
 
             run.setText(firstStr);

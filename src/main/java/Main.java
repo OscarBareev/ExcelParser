@@ -9,17 +9,16 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        String fromPath = "D:\\TestDir\\0_Список кредиторов по требованиям.xlsx";
+        String fromPath = "D:\\TestDir\\Список кредиторов по требованиям (5 очередь)_итог.xlsx";
         String toPath = "D:\\TestDir";
-
-
+        String pdfPath = "D:\\TestDir\\Требования\\Требования 5 очередь";
 
 
 
         CreditorReadService crs = new CreditorReadService();
         crs.parse(fromPath);
         CreditorWriteService cws = new CreditorWriteService();
-        cws.run(crs.getCreditorList(), toPath);
+        cws.run(crs.getCreditorList(), toPath, pdfPath);
 
 
 

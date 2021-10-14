@@ -73,16 +73,16 @@ public class CreditorReadService {
             XSSFRow row = sheet.getRow(r);
 
             CreditorInfo info = new CreditorInfo(
-                    clean(getCellText(row.getCell(numCol))),
+                    clean(getCellText(row.getCell(numCol)).replace(".0", "")),
                     clean(getCellText(row.getCell(creditorNameCol))),
                     clean(getCellText(row.getCell(creditorAddressCol))),
                     clean(getCellText(row.getCell(sumCol))),
-                    clean(getCellText(row.getCell(contractReqCol))),
-                    clean(getCellText(row.getCell(actReqCol))),
-                    clean(getCellText(row.getCell(sumActCol))),
-                    clean(getCellText(row.getCell(contractClaimReqCol))),
-                    clean(getCellText(row.getCell(actClaimReqCol))),
-                    clean(getCellText(row.getCell(sumClaimActCol)))
+                    clean(getCellText(row.getCell(contractReqCol)).replaceAll("\n", ", ")),
+                    clean(getCellText(row.getCell(actReqCol)).replaceAll("\n", ", ")),
+                    clean(getCellText(row.getCell(sumActCol)).replaceAll("\n", ", ")),
+                    clean(getCellText(row.getCell(contractClaimReqCol)).replaceAll("\n", ", ")),
+                    clean(getCellText(row.getCell(actClaimReqCol)).replaceAll("\n", ", ")),
+                    clean(getCellText(row.getCell(sumClaimActCol)).replaceAll("\n", ", "))
             );
 
             creditorList.add(fix(info));
@@ -97,70 +97,38 @@ public class CreditorReadService {
     }
 
 
-    private CreditorInfo fix(CreditorInfo info){
+    private CreditorInfo fix(CreditorInfo info) {
 
         String resultName = info.getCreditorName();
-
-        if (resultName.contains("/")){
+        if (resultName.contains("/")) {
             String[] nameArr = resultName.split("/");
             resultName = nameArr[1].trim();
             info.setCreditorName(resultName);
         }
 
-
         String contractReqRes = info.getContractReq();
-        if (contractReqRes.contains("\n")){
-            contractReqRes = contractReqRes.replaceAll("\n",", ");
+        if (contractReqRes.contains("бн ")) {
+            contractReqRes = contractReqRes.replaceAll("бн ", "б/н ");
+            info.setContractReq(contractReqRes.replace("\n", ", "));
         }
-
-        if (contractReqRes.contains("бн ")){
-            contractReqRes = contractReqRes.replaceAll("бн ","б/н ");
-        }
-
-        info.setContractReq(contractReqRes);
-
 
         String contractClaimReqRes = info.getContractClaimReq();
-        if (contractClaimReqRes.contains("\n")){
-            contractClaimReqRes = contractClaimReqRes.replaceAll("\n",", ");
+        if (contractClaimReqRes.contains("бн ")) {
+            contractClaimReqRes = contractClaimReqRes.replaceAll("бн ", "б/н ");
+            info.setContractClaimReq(contractClaimReqRes.replace("\n", ", "));
         }
-
-        if (contractClaimReqRes.contains("бн ")){
-            contractClaimReqRes = contractClaimReqRes.replaceAll("бн ","б/н ");
-        }
-
-        info.setContractClaimReq(contractClaimReqRes);
-
 
         String actReqRes = info.getActReq();
-        if (actReqRes.contains("\n")){
-            actReqRes = actReqRes.replaceAll("\n",", ");
+        if (actReqRes.contains("бн ")) {
+            actReqRes = actReqRes.replaceAll("бн ", "б/н ");
+            info.setActReq(actReqRes.replace("\n", ", "));
         }
-
-        if (actReqRes.contains("бн ")){
-            actReqRes = actReqRes.replaceAll("бн ","б/н ");
-        }
-
-        info.setActReq(actReqRes);
-
 
         String actClaimReqRes = info.getActClaimReq();
-        if (actClaimReqRes.contains("\n")){
-            actClaimReqRes = actClaimReqRes.replaceAll("\n",", ");
+        if (actClaimReqRes.contains("бн ")) {
+            actClaimReqRes = actClaimReqRes.replaceAll("бн ", "б/н ");
+            info.setActClaimReq(actClaimReqRes.replace("\n", ", "));
         }
-
-        if (actClaimReqRes.contains("бн ")){
-            actClaimReqRes = actClaimReqRes.replaceAll("\n","б/н ");
-        }
-
-        info.setActClaimReq(actClaimReqRes);
-
-
-
-
-
-
-
 
         return info;
     }

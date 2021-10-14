@@ -9,7 +9,7 @@ public final class StringsData {
     }
 
     public String getAgency() {
-        return "АГЕНСТВО";
+        return "АГЕНТСТВО";
     }
 
     public String getInsur() {

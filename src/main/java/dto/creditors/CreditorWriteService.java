@@ -12,14 +12,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CreditorWriteService {
 
-    public void run(List<CreditorInfo> infoList, String path) throws IOException {
+    private String pdfPath = "";
 
-        String pathFolder = path + "\\Возражения\\";
-        String pathFolderALl = path + "\\Возражения (Все документы)\\";
+    public void run(List<CreditorInfo> infoList, String docxPath) throws IOException {
+        run(infoList, docxPath, "");
+    }
+
+    public void run(List<CreditorInfo> infoList, String docxPath, String pdfPath) throws IOException {
+
+        String pathFolder = docxPath + "\\Возражения\\";
+        String pathFolderALl = docxPath + "\\Возражения (Все документы)\\";
 
         Files.createDirectory(Path.of(pathFolder));
         Files.createDirectory(Path.of(pathFolderALl));
@@ -28,9 +36,7 @@ public class CreditorWriteService {
         StringsData data = new StringsData();
 
 
-
         for (CreditorInfo info : infoList) {
-
 
 
             XWPFDocument document = createDoc(data, info);
@@ -41,12 +47,13 @@ public class CreditorWriteService {
                     .replace("»", "")
                     .replace("«", "");
 
-            String pathDir = pathFolder + info.getNum().replace(".0", "") + ". " + dirName + "\\";
+            String pathDir = pathFolder + info.getNum() + ". " + dirName + "\\";
             Files.createDirectory(Path.of(pathDir));
 
 
-            int pages = 3;
-            if (containsClaim(info)) pages = 4;
+            int pages = 4;
+            if (!containsOrange(info) && !containsYellow(info)) pages = 3;
+
 
             String finalDir = pathDir + "Возражение на требование кредитора (" + dirName + ") на " + pages + " л_.docx";
 
@@ -54,21 +61,25 @@ public class CreditorWriteService {
             document.write(withFolders);
             withFolders.close();
 
+            if (!pdfPath.trim().equals("")) {
+
+
+                String fromPdf = findPdfFile(pdfPath, info.getNum());
+                String pdfName = Paths.get(fromPdf).getFileName().toString();
+
+                if (!pdfName.trim().equals("")) {
+
+                    Files.copy(Paths.get(fromPdf), Paths.get(pathDir + pdfName));
+                }
+            }
+
+
             FileOutputStream noFolders = new FileOutputStream(pathFolderALl + info.getNum().replace(".0", "") +
                     ". Возражение на требование кредитора (" + dirName + ") на " + pages + " л_.docx");
-
-
-
             document.write(noFolders);
             noFolders.close();
         }
     }
-
-
-
-
-
-
 
 
     private XWPFDocument createDoc(StringsData str, CreditorInfo info) {
@@ -82,14 +93,16 @@ public class CreditorWriteService {
         String creditorPar2 = info.getCreditorName() + " (далее также – Кредитор) обратился к Конкурсному " +
                 "управляющему с заявлением о включении в реестр требований кредиторов Должника " +
                 "требования об оплате агентского вознаграждения " +
-                "и услуг размере в общем размере " + info.getSum() + " руб. в том числе по договору:";
+                "и услуг в общем размере " + info.getSum() + " руб.";
+
+        if (containsYellow(info) || containsOrange(info)) creditorPar2 = creditorPar2 + ", в том числе по договору:";
 
         String creditorPar3 = "- возмездного оказания услуг в сфере страхования " +
                 info.getContractReq() + " по актам " +
                 info.getActReq() + " на общую сумму " +
                 info.getSumAct() + " руб.";
 
-        if (containsClaim(info)) creditorPar3 = creditorPar3 + ";";
+        if (containsOrange(info)) creditorPar3 = creditorPar3 + ";";
 
         String creditorIfPar4 = "- возмездного оказания услуг по урегулированию убытков " +
                 info.getContractClaimReq() + " по актам " +
@@ -98,21 +111,28 @@ public class CreditorWriteService {
 
         String creditorPar5 = "Конкурсный управляющий возражает относительно " +
                 "включения заявленного требования в реестр требований кредиторов " +
-                "Должника в части сумм по:";
+                "Должника";
+
+        if (containsYellow(info) || containsOrange(info)) {
+            creditorPar5 = creditorPar5 + ", в том числе, сумм по:";
+        } else {
+            creditorPar5 = creditorPar5 + ".";
+        }
+
 
         String creditorPar6 = "- договору возмездного оказания услуг в сфере страхования " +
                 info.getContractReq() + " по актам " +
                 info.getActReq() + " на общую сумму " +
                 info.getSumAct() + " руб.";
 
-        if (!containsClaim(info)) creditorPar6 = creditorPar6 + ", руководствуясь следующим.";
+        if (!containsOrange(info)) creditorPar6 = creditorPar6 + ", руководствуясь следующим.";
 
         String creditorIfPar7 = "- договору возмездного оказания услуг по урегулированию убытков " +
                 info.getContractClaimReq() + " по актам " +
                 info.getActClaimReq() + " на общую сумму " +
                 info.getSumClaimAct() + " руб.";
 
-        if (containsClaim(info)) creditorIfPar7 = creditorIfPar7 + ", руководствуясь следующим.";
+        if (containsOrange(info)) creditorIfPar7 = creditorIfPar7 + ", руководствуясь следующим.";
 
         String creditorPar8 = "Конкурсное производство осуществляется в порядке и в " +
                 "соответствии с процедурами, которые предусмотрены Федеральным законом " +
@@ -155,6 +175,37 @@ public class CreditorWriteService {
 
         String creditorPar17 = "Однако требование Кредитора в оспариваемой части не может быть включено в реестр " +
                 "требований кредиторов Должника в связи со следующим.";
+
+
+        String newPar1 = "Согласно п. 2.3.25 агентского договора, одновременно с представлением отчета " +
+                "агент обязан перечислить принципалу страховые взносы, передать заключенные договоры, " +
+                "квитанции по форме А7.";
+
+        String newPar2 = "Согласно п. 3.3. агентского договора, агентское вознаграждение подлежит к " +
+                "выплате при условии исполнения агентом обязанности по проведению инвентаризации и возврату " +
+                "неиспользованного БСО, предоставлении информации по утраченным и испорченным страховым полисам.";
+
+        String newPar3 = "Согласно п. 3.4. агентского договора, в случае возврата принципалом страхователю страховой " +
+                "премии в полном объеме (в т.ч. в случае отказа страхователя от договора страхования) выплата " +
+                "вознаграждения Агенту по такому договору страхования не производится, а выплаченное вознаграждение " +
+                "подлежит пересчету и возврату принципалу. При этом Принципал вправе произвести пересчет агентского " +
+                "вознаграждения возврате страхователю части премии, пропорционально оставшейся части страховой премии.";
+
+        String newPar4 = "Согласно п. 4.4. агентского договора, принципал по своему усмотрению не оплачивает " +
+                "агенту агентское вознаграждение, установленное п.3.2. агентского  договора, по договорам " +
+                "страхования, отчет о заключении (внесении изменений, выдаче дубликатов) которых агентом " +
+                "был сдан с нарушением срока сдачи отчета о работе, установленного п.2.3.25. и п.2.3.26. " +
+                "договора, а также в случае нарушения срока и порядка передачи страховых взносов, " +
+                "установленного в пункте 3.1. договора, либо передачи взносов в меньшем размере.";
+
+        String newPar5 = "Между тем, к требованию кредитора не приложены доказательства исполнения обязанностей, " +
+                "предусмотренных вышеуказанными условиями договора, обуславливающих исполнение Должником своего " +
+                "обязательства по выплате агентского вознаграждения, в том числе:";
+
+        String newPar6 = "-\tдоказательства передачи страховых взносов Должнику;";
+        String newPar7 = "-\tпередачи Должнику неиспользованный, испорченных бланков строго отчетности, " +
+                "сведений об утрате таковых.";
+
 
         String creditorPar18 = "Согласно п. 26 Постановления Пленума ВАС РФ от 22.06.2012 № 35 «О некоторых " +
                 "процессуальных вопросах, связанных с рассмотрением дел о банкротстве», в силу пунктов " +
@@ -273,12 +324,12 @@ public class CreditorWriteService {
 
         ctd.crtPrf(document, str.getDecisionInfo());
         ctd.crtPrf(document, creditorPar2);
-        ctd.crtPrf(document, creditorPar3);
-        if (containsClaim(info)) ctd.crtPrf(document, creditorIfPar4);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar3);
+        if (containsOrange(info)) ctd.crtPrf(document, creditorIfPar4);
         ctd.crtSpanPrf(document);
         ctd.crtPrf(document, creditorPar5);
-        ctd.crtPrf(document, creditorPar6);
-        if (containsClaim(info)) ctd.crtPrf(document, creditorIfPar7);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar6);
+        if (containsOrange(info)) ctd.crtPrf(document, creditorIfPar7);
         ctd.crtPrf(document, creditorPar8);
         ctd.crtPrf(document, creditorPar9);
         ctd.crtPrf(document, creditorPar10);
@@ -290,22 +341,35 @@ public class CreditorWriteService {
         ctd.crtPrf(document, creditorPar16);
         ctd.crtPrf(document, creditorPar17);
         ctd.crtSpanPrf(document);
-        ctd.crtPrf(document, creditorPar18);
-        ctd.crtPrf(document, creditorPar19);
-        ctd.crtPrf(document, creditorPar20);
-        ctd.crtPrf(document, creditorPar21);
-        ctd.crtPrf(document, creditorPar22);
-        ctd.crtPrf(document, creditorPar23);
-        ctd.crtPrf(document, creditorPar24);
-        ctd.crtPrf(document, creditorPar25);
-        ctd.crtPrf(document, creditorPar26);
-        ctd.crtPrf(document, creditorPar27);
+
+        ctd.crtPrf(document, newPar1);
+        ctd.crtPrf(document, newPar2);
+        ctd.crtPrf(document, newPar3);
+        ctd.crtPrf(document, newPar4);
+        ctd.crtPrf(document, newPar5);
+        ctd.crtPrf(document, newPar6);
+        ctd.crtPrf(document, newPar7);
+
         ctd.crtSpanPrf(document);
-        ctd.crtPrf(document, creditorPar28);
-        ctd.crtPrf(document, creditorPar29);
-        ctd.crtSpanPrf(document);
-        if (containsClaim(info)) ctd.crtPrf(document, creditorIfPar30);
-        if (containsClaim(info)) ctd.crtSpanPrf(document);
+        if (containsOrange(info) || containsYellow(info)) ctd.crtPrf(document, creditorPar18);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar19);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar20);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar21);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar22);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar23);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar24);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar25);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar26);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar27);
+        if (containsOrange(info) || containsYellow(info)) ctd.crtSpanPrf(document);
+
+        if (containsOrange(info) || containsYellow(info)) ctd.crtPrf(document, creditorPar28);
+        if (containsYellow(info)) ctd.crtPrf(document, creditorPar29);
+        if (containsOrange(info) || containsYellow(info)) ctd.crtSpanPrf(document);
+
+        if (containsOrange(info)) ctd.crtPrf(document, creditorIfPar30);
+        if (containsOrange(info)) ctd.crtSpanPrf(document);
+
         ctd.crtPrf(document, creditorPar31);
         ctd.crtPrf(document, creditorPar32);
 
@@ -326,12 +390,11 @@ public class CreditorWriteService {
         ctd.crtPrf(document, att3);
         ctd.crtPrf(document, att4);
 
-
         return document;
     }
 
 
-    private boolean containsClaim(CreditorInfo info) {
+    private boolean containsOrange(CreditorInfo info) {
         return !info.getContractClaimReq().equals("")
                 && !info.getActClaimReq().equals("")
                 && !info.getSumClaimAct().equals("")
@@ -339,4 +402,27 @@ public class CreditorWriteService {
                 && !info.getSumClaimAct().trim().equalsIgnoreCase("отсутсвуют");
     }
 
+    private boolean containsYellow(CreditorInfo info) {
+        return !info.getContractReq().equals("")
+                && !info.getActReq().equals("")
+                && !info.getSumAct().equals("")
+                && !info.getSumAct().trim().equalsIgnoreCase("нет")
+                && !info.getSumAct().trim().equalsIgnoreCase("отсутсвуют");
+    }
+
+
+    private String findPdfFile(String path, String startNum) throws IOException {
+
+        Stream<Path> filePathStream = Files.walk(Paths.get(path));
+
+        filePathStream
+                .filter(Files::isRegularFile)
+                .filter(filePath -> filePath.toString().endsWith("pdf"))
+                .filter(filePath -> filePath.getFileName().toString().startsWith(startNum + "."))
+                .forEach(filePath -> {
+                    pdfPath = filePath.toString();
+                });
+
+        return pdfPath;
+    }
 }
